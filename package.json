@@ -1,10 +1,15 @@
 {
   "name": "fathon-modal",
-  "version": "0.0.1",
-  "description": "A deep modal.",
+  "version": "1.0.0",
+  "description": "A modal concept which aims to give a sense of depth between the page and modal layers.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "npm run development",
+    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "npm run development -- --watch",
+    "prod": "npm run production",
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "start": "http-server ./dist"
   },
   "repository": {
     "type": "git",
@@ -12,12 +17,20 @@
   },
   "keywords": [
     "modal",
-    "js"
+    "js",
+    "deep"
   ],
   "author": "Lucas Reis <lucas@programmer.com.br>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/lucasctd/fathon-modal/issues"
+  },
+  "devDependencies": {
+    "cross-env": "^5.2.0",
+    "laravel-mix": "^4.0.14",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
+    "vue-template-compiler": "^2.6.8"
   },
   "homepage": "https://github.com/lucasctd/fathon-modal#readme"
 }

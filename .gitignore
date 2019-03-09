@@ -1,0 +1,12 @@
+# Node modules
+node_modules
+package-lock.json
+yarn.lock
+
+# Logs
+.idea/
+.vscode/
+
+#Build
+/dist/*
+!/dist/index.html
