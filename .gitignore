@@ -4,9 +4,9 @@ package-lock.json
 yarn.lock
 
 # Logs
-/.idea
-/.vscode
+.idea/
+.vscode/
 
 #Build
 /dist/*
-!/dist/.gitkeep
+!/dist/index.html

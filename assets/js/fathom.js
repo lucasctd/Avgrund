@@ -16,7 +16,9 @@ export default class FathomModal {
 	
 	constructor(el){
 		this.documentElement = document.documentElement;
+		this.documentElement.classList.add('fm-document');
 		this.el = el instanceof HTMLElement ? el : this.documentElement.querySelector(el);
+		this.el.classList.add('fm-el');
 		this.blur = true;
 		this.addEventListenters();
 		this.createCoverElement();
@@ -33,14 +35,13 @@ export default class FathomModal {
 		
 		/* Close on ESC */
 		this.documentElement.addEventListener('keydown', this.closeOnEsc.bind(this), false);
-		
 		/* Close on clicking anywhere else than the dialog */
 		this.documentElement.addEventListener('click', this.closeOnCoverClick.bind(this), false);
 		this.documentElement.addEventListener('touchstart', this.closeOnCoverClick.bind(this), false);
 	}
 	
 	closeOnEsc(e) {
-		if(e.keyCode === 27) {
+		if(e.key.toLowerCase() === 'escape') {
 			this.hide();
 		}
 	}
@@ -52,22 +53,47 @@ export default class FathomModal {
 	}
 	
 	show() {
-		if(!this.blur) {
-			this.documentElement.documentElement.classList.add('no-blur');
+		this.centralize();
+		setTimeout(() => {
+			this.el.classList.add( 'fm-el-active' );
+			this.documentElement.classList.add( 'fm-document-active' );
+			this.cover.classList.add('fm-cover-active');
+			if(this.blur) {
+				this.toggleObfuscation();
+			}
+		}, 100);
+	}
+
+	centralize() {
+		this.el.style.marginLeft = `-${this.el.offsetWidth / 2}px`;
+		this.el.style.marginTop = `-${this.el.offsetHeight / 2}px`;
+	}
+
+	toggleObfuscation() {
+		const children = document.body.children;
+		for(let x = 0; x < children.length; x++) {
+			if(children[x] !== this.el && !(children[x] instanceof HTMLScriptElement) && !(children[x] instanceof HTMLLinkElement)) {
+				children[x].classList.toggle('fm-blur');
+			}
 		}
-		this.el.classList.add( 'fm-el-active' );
-		this.documentElement.classList.add( 'fm-active' );
 	}
 	
 	hide() {
-		this.documentElement.classList.remove( 'avgrund-active' );
-		this.el.classList.remove( 'avgrund-popup-animate' );
+		if(this.blur) {
+			this.toggleObfuscation();
+		}
+		this.documentElement.classList.remove( 'fm-document-active' );
+		this.el.classList.remove( 'fm-el-active' );
+		this.cover.classList.remove( 'fm-cover-active' );
 	}
 	
 	destroy() {
+		this.hide();
 		this.documentElement.removeEventListener( 'keydown', this.closeOnEsc, false);
 		this.documentElement.removeEventListener( 'click', this.closeOnCoverClick, false);
 		this.documentElement.removeEventListener( 'touchstart', this.closeOnCoverClick, false);
 		this.cover.remove();
 	}
 }
+
+export {FathomModal};

@@ -12,4 +12,4 @@ let mix = require('laravel-mix');
 
 mix.setPublicPath('dist')
     .js('assets/js/app.js', 'js/app.js')
-    .stylus('assets/styl/fathon.styl', 'css/app.css');
+    .stylus('assets/styl/fathom.styl', 'css/app.css');
