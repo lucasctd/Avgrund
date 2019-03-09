@@ -12,11 +12,10 @@
  * @class FathomModal
  * @author Lucas Reis <lucas@programmer.com.br>
 */ 
-class FathomModal {
+export default class FathomModal {
 	
 	constructor(el){
 		this.documentElement = document.documentElement;
-		this.documentElement.classList.add('avgrund-ready');		
 		this.el = el instanceof HTMLElement ? el : this.documentElement.querySelector(el);
 		this.blur = true;
 		this.addEventListenters();
@@ -26,33 +25,38 @@ class FathomModal {
 	createCoverElement() {
 		this.cover = document.createElement('div');
 		this.cover.setAttribute('id', '_' + Math.random());
-		this.cover.classList.add('avgrund-cover');
+		this.cover.classList.add('fm-cover');
 		this.el.parentNode.insertBefore(this.cover, this.el.nextSibling);
 	}
 	
 	addEventListenters() {
 		
 		/* Close on ESC */
-		this.documentElement.addEventListener('keyup', function(e) {
-			if(e.keyCode === 27) {
-				this.hide();
-			}
-		}.bind(this), false);
+		this.documentElement.addEventListener('keydown', this.closeOnEsc.bind(this), false);
 		
 		/* Close on clicking anywhere else than the dialog */
-		this.documentElement.addEventListener('click', function(e) {
-			if(e.target === this.cover) {
-				this.hide();
-			}
-		}.bind(this), false);
+		this.documentElement.addEventListener('click', this.closeOnCoverClick.bind(this), false);
+		this.documentElement.addEventListener('touchstart', this.closeOnCoverClick.bind(this), false);
+	}
+	
+	closeOnEsc(e) {
+		if(e.keyCode === 27) {
+			this.hide();
+		}
+	}
+	
+	closeOnCoverClick(e) {
+		if(e.target === this.cover) {
+			this.hide();
+		}
 	}
 	
 	show() {
 		if(!this.blur) {
-			this.documentElement.documentElement.classList.add( 'no-blur' );
+			this.documentElement.documentElement.classList.add('no-blur');
 		}
-		this.el.classList.add( 'avgrund-popup-animate' );
-		this.documentElement.classList.add( 'avgrund-active' );
+		this.el.classList.add( 'fm-el-active' );
+		this.documentElement.classList.add( 'fm-active' );
 	}
 	
 	hide() {
@@ -61,9 +65,9 @@ class FathomModal {
 	}
 	
 	destroy() {
-		this.documentElement.removeEventListener( 'keyup', onDocumentKeyUp, false );
-		this.documentElement.removeEventListener( 'click', onDocumentClick, false );
-		this.documentElement.removeEventListener( 'touchstart', onDocumentClick, false );
-		window.body.remove(this.cover);
+		this.documentElement.removeEventListener( 'keydown', this.closeOnEsc, false);
+		this.documentElement.removeEventListener( 'click', this.closeOnCoverClick, false);
+		this.documentElement.removeEventListener( 'touchstart', this.closeOnCoverClick, false);
+		this.cover.remove();
 	}
 }
