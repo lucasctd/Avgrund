@@ -14,12 +14,14 @@
 */ 
 export default class FathomModal {
 	
-	constructor(el){
+	constructor(el, ignoreEl = null, blurList = null){
 		this.documentElement = document.documentElement;
 		this.documentElement.classList.add('fm-document');
 		this.el = el instanceof HTMLElement ? el : this.documentElement.querySelector(el);
 		this.el.classList.add('fm-el');
 		this.blur = true;
+		this.ignoreEl = ignoreEl;
+		this.blurList = blurList;
 		this.addEventListenters();
 		this.createCoverElement();
 	}
@@ -70,14 +72,17 @@ export default class FathomModal {
 	}
 
 	toggleObfuscation() {
-		const children = document.body.children;
+		let children = [...document.body.children];
+		if(this.blurList) {
+			children = children.concat(this.blurList);
+		}
 		for(let x = 0; x < children.length; x++) {
-			if(children[x] !== this.el && !(children[x] instanceof HTMLScriptElement) && !(children[x] instanceof HTMLLinkElement)) {
+			if(children[x] !== this.el && children[x] !== this.ignoreEl  && !(children[x] instanceof HTMLScriptElement) && !(children[x] instanceof HTMLLinkElement)) {
 				children[x].classList.toggle('fm-blur');
 			}
 		}
 	}
-	
+
 	hide() {
 		if(this.blur) {
 			this.toggleObfuscation();
