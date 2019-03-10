@@ -95,5 +95,3 @@ export default class FathomModal {
 		this.cover.remove();
 	}
 }
-
-export {FathomModal};
