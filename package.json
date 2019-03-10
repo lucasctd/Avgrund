@@ -1,6 +1,6 @@
 {
   "name": "fathom-modal",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A modal concept which aims to give a sense of depth between the page and modal layers.",
   "main": "index.js",
   "scripts": {
