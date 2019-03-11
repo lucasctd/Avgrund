@@ -1,7 +1,12 @@
 import Fathom from './fathom.js';
 
-const app = new Fathom('#myModal');
-app.blur = false;
+const app = new Fathom('#myModal', document.getElementById('ignore'), [
+    document.getElementById('bla')
+]).on('show', () => {
+    console.log(`abrindo a modal`);
+}).on('hide', () => {
+    console.log(`fechando a modal`);
+});
 const app2 = new Fathom('#otherModal');
 
 document.getElementById('bt-show').addEventListener('click', () => {
