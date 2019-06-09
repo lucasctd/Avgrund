@@ -28,9 +28,9 @@ app.destroy(); //there is no need to call app.hide()
 
 #### Listen to Events
 ```javascript
-app.on('hide', () => {console.log('hide hide')}); //when you click on the cover, the modal will hide, so this event is very usefull on this case
-app.on('show', () => {console.log('hide show')});
-app.on('destroy', () => {console.log('hide destroy')});
+app.on('hide', () => {console.log('hide')}); //when you click on the cover, the modal will hide, so this event is very usefull on this case
+app.on('show', () => {console.log('show')});
+app.on('destroy', () => {console.log('destroy')});
 ```
 #### Customize
 
