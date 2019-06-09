@@ -7,7 +7,7 @@
  */
 
 /**
- * This package was first created by Hakim El Hattab. Just have update to add more features and make it as a NPM package.
+ * This package was first created by Hakim El Hattab. I have rewritten it as a NPM package and added a few more features.
  *
  * @class FathomModal
  * @author Lucas Reis <lucas@programmer.com.br>
@@ -17,7 +17,7 @@ export default class FathomModal {
 	constructor(el, ignoreEl = null, blurList = null){
 		this.documentElement = document.documentElement;
 		this.documentElement.classList.add('fm-document');
-		this.el = el instanceof HTMLElement ? el : this.documentElement.querySelector(el);
+		this.createEl(el);
 		this.el.classList.add('fm-el');
 		this.blur = true;
 		this.ignoreEl = ignoreEl;
@@ -32,9 +32,18 @@ export default class FathomModal {
 		return this;
 	}
 
+	createEl(el) {
+		const template = el instanceof HTMLElement ? el : this.documentElement.querySelector(el);
+		this.el = document.createElement('div');
+		this.el.setAttribute('id', template.id + '_' + Math.round(Math.random() * 100));
+		const node = template.content.cloneNode(true);
+		this.el.appendChild(node);
+		document.body.appendChild(this.el);
+	}
+
 	createCoverElement() {
 		this.cover = document.createElement('div');
-		this.cover.setAttribute('id', '_' + Math.random());
+		this.cover.setAttribute('id', this.el.id + '_cover');
 		this.cover.classList.add('fm-cover');
 		this.el.parentNode.insertBefore(this.cover, this.el.nextSibling);
 	}
@@ -92,7 +101,7 @@ export default class FathomModal {
 	}
 
 	hide() {
-		if(this.blur) {
+		if(this.blur && this.documentElement.classList.contains('fm-document-active')) {
 			this.toggleObfuscation();
 		}
 		this.documentElement.classList.remove( 'fm-document-active' );
